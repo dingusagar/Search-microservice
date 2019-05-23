@@ -4,9 +4,7 @@ import com.example.training_project2.Searchmicroservice.builder.SearchQueryBuild
 import com.example.training_project2.Searchmicroservice.model.Product;
 import com.example.training_project2.Searchmicroservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +42,18 @@ public class SearchResource {
     @GetMapping(value = "search/{text}")
     public List<Product> getAll(@PathVariable final String text) {
         return searchQueryBuilder.getAll(text);
+    }
+
+
+    @PostMapping("/loadData")
+    public Boolean createEmployee(@RequestBody Product product ){
+        try {
+            productRepository.save(product);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
 
