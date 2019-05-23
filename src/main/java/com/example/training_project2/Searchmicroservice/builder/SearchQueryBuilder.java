@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+
 @Component
 public class SearchQueryBuilder {
 
@@ -18,24 +21,30 @@ public class SearchQueryBuilder {
     private ElasticsearchTemplate elasticsearchTemplate;
 
 
-    public List<Product> getAll(String text) {
+    public List<Product> getAll(String requestParam) {
 
 
-        QueryBuilder query = QueryBuilders.boolQuery()
+        QueryBuilder query = boolQuery()
                 .should(
-                        QueryBuilders.queryStringQuery(text)
+                        QueryBuilders.queryStringQuery(requestParam)
                                 .lenient(true)
                                 .field("productName")
                                 .field("category")
                                 .field("description")
-                ).should(QueryBuilders.queryStringQuery("*" + text + "*")
+                ).should(QueryBuilders.queryStringQuery("*" + requestParam + "*")
                         .lenient(true)
                         .field("productName")
                         .field("category")
-                        .field("description"));
+                        .field("description")
+                );
+
+        QueryBuilder filterQuery = QueryBuilders.nestedQuery(
+                "variants", boolQuery().should(termQuery("variants.ram", requestParam)).should(
+                        termQuery("variants.colour", requestParam)));
 
         NativeSearchQuery build = new NativeSearchQueryBuilder()
                 .withQuery(query)
+                .withQuery(filterQuery)
                 .build();
 
         List<Product> products = elasticsearchTemplate.queryForList(build, Product.class);

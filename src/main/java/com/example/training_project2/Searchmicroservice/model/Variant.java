@@ -2,9 +2,12 @@ package com.example.training_project2.Searchmicroservice.model;
 
 import org.springframework.data.annotation.Id;
 
+
 public class Variant {
+
     @Id
     private String variantId;
+
     private String ram;
     private String colour;
     private String screenSize;

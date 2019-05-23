@@ -2,29 +2,25 @@ package com.example.training_project2.Searchmicroservice.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Document(indexName = "products", type = "products", shards = 1)
+@Document(indexName = "product", type = "product", shards = 1)
 public class Product {
     @Id
     private String productId;
+
     private String productName;
+
     private String productCategory;
+
+   @Field(type = FieldType.Nested)
     private List<Variant> variants;
+
     private String description;
 
-    public Product(String productId, String productName, String productCategory, List<Variant> variants) {
-        this.productId = productId;
-        this.productName = productName;
-        this.productCategory = productCategory;
-        this.variants = variants;
-    }
-
-
-    public Product() {
-    }
 
     public String getDescription() {
         return description;

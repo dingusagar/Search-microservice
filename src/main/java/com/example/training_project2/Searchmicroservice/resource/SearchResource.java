@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 @RestController
 public class SearchResource {
 
@@ -24,8 +23,6 @@ public class SearchResource {
 //
 
 
-
-
     @GetMapping(value = "/search_all")
     public List<Product> searchAll() {
         List<Product> productList = new ArrayList<>();
@@ -35,20 +32,33 @@ public class SearchResource {
     }
 
 
-
     @Autowired
     private SearchQueryBuilder searchQueryBuilder;
 
-    @GetMapping(value = "search/{text}")
-    public List<Product> getAll(@PathVariable final String text) {
-        return searchQueryBuilder.getAll(text);
+    @GetMapping(value = "search")
+
+    public List<Product> getAll( @RequestParam String searchParam) {
+
+        return searchQueryBuilder.getAll(searchParam);
     }
 
 
     @PostMapping("/loadData")
-    public Boolean createEmployee(@RequestBody Product product ){
+    public Boolean createEmployee(@RequestBody Product product) {
         try {
             productRepository.save(product);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+
+    @DeleteMapping("/deleteAllData")
+    public Boolean deleteAllData() {
+        try {
+            productRepository.deleteAll();
             return true;
         } catch (Exception e) {
             return false;
