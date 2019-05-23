@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @RestController
 public class SearchResource {
 
@@ -26,7 +28,7 @@ public class SearchResource {
 
 
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/search_all")
     public List<Product> searchAll() {
         List<Product> productList = new ArrayList<>();
         Iterable<Product> products = productRepository.findAll();
