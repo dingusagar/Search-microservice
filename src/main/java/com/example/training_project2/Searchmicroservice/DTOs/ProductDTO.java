@@ -1,4 +1,4 @@
-package com.example.training_project2.Searchmicroservice.model;
+package com.example.training_project2.Searchmicroservice.DTOs;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -7,17 +7,14 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
-@Document(indexName = "product", type = "product", shards = 1)
-public class Product {
-    @Id
+public class ProductDTO {
     private String productId;
 
     private String productName;
 
     private String productCategory;
 
-   @Field(type = FieldType.Nested)
-    private List<Variant> variants;
+    private List<VariantDTO> variants;
 
     private String productDescription;
 
@@ -64,11 +61,11 @@ public class Product {
         this.productCategory = productCategory;
     }
 
-    public List<Variant> getVariants() {
+    public List<VariantDTO> getVariants() {
         return variants;
     }
 
-    public void setVariants(List<Variant> variants) {
+    public void setVariants(List<VariantDTO> variants) {
         this.variants = variants;
     }
 }
